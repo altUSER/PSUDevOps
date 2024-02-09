@@ -1,0 +1,21 @@
+---
+- name: Install Nginx
+  hosts: servers
+  become: true
+
+  tasks:
+    - name: install nginx
+      dnf:
+        name: nginx
+        state: present
+
+    - name: copy index
+      copy:
+        src: ./files/index.html
+        dest: /usr/share/nginx/html
+        mode: "0644"
+
+    - name: restart Nginx
+      systemd:
+        service: nginx
+        state: restarted
